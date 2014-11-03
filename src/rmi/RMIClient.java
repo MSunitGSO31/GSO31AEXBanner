@@ -5,7 +5,7 @@
  */
 package rmi;
 
-import aexbanner.MockEffectenbeurs;
+import aexbanner.IEffectenbeurs;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -22,7 +22,7 @@ public class RMIClient {
 
     // References to registry and student administration
     private Registry registry = null;
-    private MockEffectenbeurs mockEffectenBeurs = null;
+    private IEffectenbeurs effectebeurs = null;
 
     private String ipAddress;
     private int portNumber;
@@ -33,7 +33,7 @@ public class RMIClient {
         this.portNumber = portNumber;
     }
 
-    public MockEffectenbeurs setUp() {
+    public IEffectenbeurs setUp() {
         // Print IP address and port number for registry
         System.out.println("Client: IP Address: " + ipAddress);
         System.out.println("Client: Port number " + portNumber);
@@ -58,28 +58,28 @@ public class RMIClient {
         // Bind student administration using registry
         if (registry != null) {
             try {
-                mockEffectenBeurs = (MockEffectenbeurs) registry.lookup(bindingName);
+                effectebeurs = (IEffectenbeurs) registry.lookup(bindingName);
             } catch (RemoteException ex) {
-                System.out.println("Client: Cannot bind student administration");
+                System.out.println("Client: Cannot bind effectenbeurs");
                 System.out.println("Client: RemoteException: " + ex.getMessage());
-                mockEffectenBeurs = null;
+                effectebeurs = null;
             } catch (NotBoundException ex) {
-                System.out.println("Client: Cannot bind student administration");
+                System.out.println("Client: Cannot bind effectenbeurs");
                 System.out.println("Client: NotBoundException: " + ex.getMessage());
-                mockEffectenBeurs = null;
+                effectebeurs = null;
             }
         }
 
         // Print result binding student administration
-        if (mockEffectenBeurs != null) {
-            System.out.println("Client: Student administration bound");
+        if (effectebeurs != null) {
+            System.out.println("Client: Effectenbeurs bound");
         } else {
-            System.out.println("Client: Student administration is null pointer");
+            System.out.println("Client: Effectenbeurs is null pointer");
         }
 
         // Test RMI connection
-        if (mockEffectenBeurs != null) {
-            return mockEffectenBeurs;
+        if (effectebeurs != null) {
+            return effectebeurs;
         } else {
             return null;
         }

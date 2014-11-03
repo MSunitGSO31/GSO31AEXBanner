@@ -5,7 +5,6 @@
  */
 package aexbanner;
 
-import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,26 +25,22 @@ import javafx.stage.WindowEvent;
  */
 public class AEXbanner extends Application {
 
-//    public Label label7;
     private CopyOnWriteArrayList<Label> runningLabelList;
     private CopyOnWriteArrayList<Fonds> fondsList;
 
     private int nextFondIndex = 0;
 
-//    private boolean canAddNewLabel = false;
     private int amountOfElements;
 
     private Scene scene;
 
     public AEXbanner() {
-        //fondsList = new ArrayList<>();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         BannerController bC = new BannerController(this);
 
-//        label7 = new Label();
         runningLabelList = new CopyOnWriteArrayList<>();
         fondsList = new CopyOnWriteArrayList<>();
 
@@ -56,14 +51,11 @@ public class AEXbanner extends Application {
         StackPane root = new StackPane();
 
         for (Label label : runningLabelList) {
-            label.setText("labellabellabel");
+            label.setText("<WaitingForData>");
             label.setFont(Font.font("Arial Black", 24.0));
             root.getChildren().add(label);
         }
 
-//        label7.setText("label7");
-//        label7.setFont(Font.font("Arial Black", 24.0));
-//        root.getChildren().add(label7);
         scene = new Scene(root, 700, 80);
 
         primaryStage.setScene(scene);
@@ -75,8 +67,6 @@ public class AEXbanner extends Application {
             double loc = ((primaryStage.getWidth() + label.getWidth()) / amountOfElements) * (k + 1);
             label.relocate(loc, 20);
         }
-//        label7.setManaged(false);
-//        label7.relocate(300, 20);
 
         new AnimationTimer() {
 
@@ -99,36 +89,6 @@ public class AEXbanner extends Application {
                         }
                     }
                 }
-//                if (fondsList.size() != 0) {
-//                    if (canAddNewLabel == true) {
-//
-//                        System.out.println(canAddNewLabel);
-//                        //System.out.println("WLL size: " + waitingLabelList.size());
-//                        //Label label = waitingLabelList.get(nextLabelIndex);
-//                       // label7 = new Label();
-//                        setText(label7, fondsList.get(nextFondIndex).toString());
-//                        //label7.setText("sdfsd");
-//                        label7.setFont(Font.font("Arial Black", 24.0));
-//
-//                        //root.getChildren().add(label7);
-//
-//                        //label7.setManaged(false);
-//                        //waitingLabelList.remove(label);
-//                        runningLabelList.add(label7);
-//                        //Fonds fonds = (Fonds) fondsMap.get("AMD");
-//                        label7.relocate(300, 20);
-//                        //System.out.println(label7.getLayoutX());
-//                        //label.setText(fonds.getName() + ": " + fonds.getKoers());
-//                        canAddNewLabel = false;
-//                        //scene = new Scene(root, 700, 80);
-//                        //primaryStage.setScene(scene);
-//                        primaryStage.show();
-//                    }
-//                }
-
-//                if (label7 != null) {
-//                    System.out.println(label7.getLayoutX());
-//                }
             }
 
         }.start();
@@ -182,7 +142,7 @@ public class AEXbanner extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        launch(AEXbanner.class, args);      
+        launch(AEXbanner.class, args);
     }
 
 }
