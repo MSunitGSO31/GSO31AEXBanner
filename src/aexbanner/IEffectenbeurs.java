@@ -7,6 +7,7 @@
 package aexbanner;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 /**
@@ -15,6 +16,6 @@ import java.util.ArrayList;
  */
 public interface IEffectenbeurs extends Remote{
     
-    ArrayList<Fonds> getKoersen();
+    ArrayList<Fonds> getKoersen() throws RemoteException;
     
 }

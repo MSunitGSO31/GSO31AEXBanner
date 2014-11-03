@@ -5,6 +5,7 @@
  */
 package aexbanner;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Timer;
@@ -31,7 +32,10 @@ public class BannerController {
         //effectenBeurs = new MockEffectenbeurs();
 
         this.AEXbanner = banner;
-        banner.setAmountOfElements(effectenBeurs.getKoersen().size());
+        try {
+            banner.setAmountOfElements(effectenBeurs.getKoersen().size());
+        } catch (RemoteException ex) {
+        }
 
         getFondsTimer = new Timer();
         getFondsTimer.scheduleAtFixedRate(new getFonds(), 0, 1000);
@@ -57,15 +61,18 @@ public class BannerController {
 
         @Override
         public void run() {
-            ArrayList<Fonds> fondsList = effectenBeurs.getKoersen();
-            Fonds fonds = fondsList.get(arrayListIndex);
+            try {
+                ArrayList<Fonds> fondsList = effectenBeurs.getKoersen();
+                Fonds fonds = fondsList.get(arrayListIndex);
 
-            //AEXbanner.setText(fonds.getName() + ": " + fonds.getKoers());
-            AEXbanner.addFond(fonds);
+                //AEXbanner.setText(fonds.getName() + ": " + fonds.getKoers());
+                AEXbanner.addFond(fonds);
 
-            arrayListIndex++;
-            if (arrayListIndex >= fondsList.size()) {
-                arrayListIndex = 0;
+                arrayListIndex++;
+                if (arrayListIndex >= fondsList.size()) {
+                    arrayListIndex = 0;
+                }
+            } catch (RemoteException ex) {
             }
         }
     }

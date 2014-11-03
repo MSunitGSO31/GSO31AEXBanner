@@ -19,7 +19,7 @@ import java.util.TimerTask;
 public class MockEffectenbeurs extends UnicastRemoteObject implements IEffectenbeurs {
 
     public ArrayList<Fonds> fondsList;
-    private Timer fondsTimer;
+    private transient Timer fondsTimer;
 
     public MockEffectenbeurs() throws RemoteException{
         fondsList = new ArrayList<>();
@@ -34,7 +34,7 @@ public class MockEffectenbeurs extends UnicastRemoteObject implements IEffectenb
     }
 
     @Override
-    public ArrayList<Fonds> getKoersen() {
+    public ArrayList<Fonds> getKoersen() throws RemoteException{
         return fondsList;
     }
 

@@ -22,7 +22,7 @@ public class RMIServer {
 
     // References to registry and MockEffectenbeurs
     private Registry registry = null;
-    private MockEffectenbeurs meb = null;
+    private MockEffectenbeurs mockEffectenBeurs = null;
 
     // Constructor
     public RMIServer() {
@@ -32,12 +32,12 @@ public class RMIServer {
 
         // Create MockEffectenbeurs
         try {
-            meb = new MockEffectenbeurs();
+            mockEffectenBeurs = new MockEffectenbeurs();
             System.out.println("Server: MockEffectenbeurs created");
         } catch (RemoteException ex) {
             System.out.println("Server: Cannot create MockEffectenbeurs");
             System.out.println("Server: RemoteException: " + ex.getMessage());
-            meb = null;
+            mockEffectenBeurs = null;
         }
 
         // Create registry at port number
@@ -52,7 +52,7 @@ public class RMIServer {
 
         // Bind MockEffectenbeurs using registry
         try {
-            registry.rebind(bindingName, meb);
+            registry.rebind(bindingName, mockEffectenBeurs);
         } catch (RemoteException ex) {
             System.out.println("Server: Cannot bind MockEffectenbeurs");
             System.out.println("Server: RemoteException: " + ex.getMessage());
