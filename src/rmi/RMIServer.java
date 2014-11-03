@@ -5,9 +5,13 @@
 package rmi;
 
 import aexbanner.MockEffectenbeurs;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Martijn
@@ -67,8 +71,15 @@ public class RMIServer {
         // Welcome message
         System.out.println("SERVER USING REGISTRY");
 
+        InetAddress localhost = null;
+        try {
+            localhost = InetAddress.getLocalHost();
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(RMIServer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Server: IP Address: " + localhost.getHostAddress());
+
         // Create server
         RMIServer server = new RMIServer();
     }
 }
-
