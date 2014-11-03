@@ -6,11 +6,13 @@
 
 package aexbanner;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Sam
  */
-public class Fonds {
+public class Fonds implements Serializable{
     
     private String name;
     private double koers;

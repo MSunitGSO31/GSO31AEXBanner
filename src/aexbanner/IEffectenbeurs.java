@@ -6,13 +6,14 @@
 
 package aexbanner;
 
+import java.rmi.Remote;
 import java.util.ArrayList;
 
 /**
  *
  * @author Sam
  */
-public interface IEffectenbeurs {
+public interface IEffectenbeurs extends Remote{
     
     ArrayList<Fonds> getKoersen();
     

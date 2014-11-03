@@ -5,6 +5,8 @@
  */
 package aexbanner;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
@@ -14,12 +16,12 @@ import java.util.TimerTask;
  *
  * @author Sam
  */
-public class MockEffectenbeurs implements IEffectenbeurs {
+public class MockEffectenbeurs extends UnicastRemoteObject implements IEffectenbeurs {
 
     public ArrayList<Fonds> fondsList;
     private Timer fondsTimer;
 
-    public MockEffectenbeurs() {
+    public MockEffectenbeurs() throws RemoteException{
         fondsList = new ArrayList<>();
 
         fondsList.add(new Fonds("SAM", 300.0));
