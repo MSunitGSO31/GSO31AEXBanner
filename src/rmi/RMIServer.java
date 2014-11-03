@@ -33,9 +33,9 @@ public class RMIServer {
         // Create MockEffectenbeurs
         try {
             meb = new MockEffectenbeurs();
-            System.out.println("Server: Student administration created");
+            System.out.println("Server: MockEffectenbeurs created");
         } catch (RemoteException ex) {
-            System.out.println("Server: Cannot create student administration");
+            System.out.println("Server: Cannot create MockEffectenbeurs");
             System.out.println("Server: RemoteException: " + ex.getMessage());
             meb = null;
         }
@@ -54,7 +54,7 @@ public class RMIServer {
         try {
             registry.rebind(bindingName, meb);
         } catch (RemoteException ex) {
-            System.out.println("Server: Cannot bind student administration");
+            System.out.println("Server: Cannot bind MockEffectenbeurs");
             System.out.println("Server: RemoteException: " + ex.getMessage());
         }
     }
