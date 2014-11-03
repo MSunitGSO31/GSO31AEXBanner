@@ -5,6 +5,7 @@
  */
 package aexbanner;
 
+import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,14 +27,12 @@ import javafx.stage.WindowEvent;
 public class AEXbanner extends Application {
 
 //    public Label label7;
-
     private CopyOnWriteArrayList<Label> runningLabelList;
     private CopyOnWriteArrayList<Fonds> fondsList;
 
     private int nextFondIndex = 0;
 
 //    private boolean canAddNewLabel = false;
-
     private int amountOfElements;
 
     private Scene scene;
@@ -47,7 +46,6 @@ public class AEXbanner extends Application {
         BannerController bC = new BannerController(this);
 
 //        label7 = new Label();
-
         runningLabelList = new CopyOnWriteArrayList<>();
         fondsList = new CopyOnWriteArrayList<>();
 
@@ -184,8 +182,7 @@ public class AEXbanner extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        launch(AEXbanner.class, args);
-
+        launch(AEXbanner.class, args);      
     }
 
 }

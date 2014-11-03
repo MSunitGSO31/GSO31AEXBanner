@@ -6,8 +6,10 @@
 package aexbanner;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
+import rmi.RMIClient;
 
 /**
  *
@@ -18,15 +20,35 @@ public class BannerController {
     private IEffectenbeurs effectenBeurs;
     private Timer getFondsTimer;
     public AEXbanner AEXbanner;
+    private RMIClient rmiClient;
+    private String ipAddress;
+    private int portNumber;
 
     public BannerController(AEXbanner banner) {
-        effectenBeurs = new MockEffectenbeurs();
+        askForData();
+        rmiClient = new RMIClient(ipAddress, portNumber);
+        effectenBeurs = rmiClient.setUp();
+        //effectenBeurs = new MockEffectenbeurs();
 
         this.AEXbanner = banner;
         banner.setAmountOfElements(effectenBeurs.getKoersen().size());
 
         getFondsTimer = new Timer();
         getFondsTimer.scheduleAtFixedRate(new getFonds(), 0, 1000);
+    }
+
+    public void askForData() {
+        // Welcome message
+        System.out.println("CLIENT USING REGISTRY");
+
+        // Get ip address of server
+        Scanner input = new Scanner(System.in);
+        System.out.print("Client: Enter IP address of server: ");
+        ipAddress = input.nextLine();
+
+        // Get port number
+        System.out.print("Client: Enter port number: ");
+        portNumber = input.nextInt();
     }
 
     class getFonds extends TimerTask {
