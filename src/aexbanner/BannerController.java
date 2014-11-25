@@ -5,20 +5,25 @@
  */
 package aexbanner;
 
+import java.beans.PropertyChangeEvent;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import remote.RemotePropertyListener;
 import rmi.RMIClient;
 
 /**
  *
  * @author Sam
  */
-public class BannerController {
+public class BannerController implements RemotePropertyListener {
 
     private IEffectenbeurs effectenBeurs;
+    private MockEffectenbeurs effectenBeurs2;
     private Timer getFondsTimer;
     public AEXbanner AEXbanner;
     private RMIClient rmiClient;
@@ -28,8 +33,13 @@ public class BannerController {
     public BannerController(AEXbanner banner) {
         askForData();
         rmiClient = new RMIClient(ipAddress, portNumber);
-        effectenBeurs = rmiClient.setUp();
-        //effectenBeurs = new MockEffectenbeurs();
+        //effectenBeurs = rmiClient.setUp();
+        try {
+            effectenBeurs2 = new MockEffectenbeurs();
+            effectenBeurs2.addListener(this, null);
+        } catch (RemoteException ex) {
+            Logger.getLogger(BannerController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         this.AEXbanner = banner;
         try {
@@ -53,6 +63,11 @@ public class BannerController {
         // Get port number
         System.out.print("Client: Enter port number: ");
         portNumber = input.nextInt();
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
+        AEXbanner.addFond((Fonds) evt.getNewValue());
     }
 
     class getFonds extends TimerTask {

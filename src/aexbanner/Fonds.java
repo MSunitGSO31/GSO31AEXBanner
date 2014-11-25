@@ -34,6 +34,10 @@ public class Fonds implements Serializable{
         this.koers = koers;
     }
     
+    public void setName(String name){
+        name = name;
+    }
+    
     @Override
     public String toString(){
         return name + ": " + koers;

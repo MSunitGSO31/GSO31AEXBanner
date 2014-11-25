@@ -5,23 +5,29 @@
  */
 package aexbanner;
 
+import remote.BasicPublisher;
+import remote.RemotePublisher;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+import remote.RemotePropertyListener;
 
 /**
  *
  * @author Sam
  */
-public class MockEffectenbeurs extends UnicastRemoteObject implements IEffectenbeurs {
+public class MockEffectenbeurs extends UnicastRemoteObject implements IEffectenbeurs, RemotePublisher {
 
     public ArrayList<Fonds> fondsList;
     private transient Timer fondsTimer;
+    private BasicPublisher basicPublisher;
 
-    public MockEffectenbeurs() throws RemoteException{
+    public MockEffectenbeurs() throws RemoteException {
         fondsList = new ArrayList<>();
 
         fondsList.add(new Fonds("SAM", 300.0));
@@ -29,13 +35,24 @@ public class MockEffectenbeurs extends UnicastRemoteObject implements IEffectenb
         fondsList.add(new Fonds("nVidia", 200.0));
         fondsList.add(new Fonds("AMD", 150.0));
 
+        basicPublisher = new BasicPublisher(new String[]{"koers"});
+
         fondsTimer = new Timer();
         fondsTimer.scheduleAtFixedRate(new fondsCalculator(), 0, 500);
+
     }
 
     @Override
-    public ArrayList<Fonds> getKoersen() throws RemoteException{
+    public ArrayList<Fonds> getKoersen() throws RemoteException {
         return fondsList;
+    }
+
+    public void addListener(RemotePropertyListener listener, String property) throws RemoteException {
+        basicPublisher.addListener(listener, null);
+    }
+
+    public void removeListener(RemotePropertyListener listener, String property) throws RemoteException {
+        basicPublisher.removeListener(listener, null);
     }
 
     class fondsCalculator extends TimerTask {
@@ -51,8 +68,15 @@ public class MockEffectenbeurs extends UnicastRemoteObject implements IEffectenb
                 randomDouble = (double) Math.round(randomDouble * 10) / 10;
 
                 fonds.setKoers(randomInt + randomDouble);
+                fonds.setName(randomInt + "");
+
+                informListener(fonds);
+
             }
         }
     }
 
+    public void informListener(Fonds fonds) {
+        basicPublisher.inform(this, null, null, fonds);
+    }
 }
