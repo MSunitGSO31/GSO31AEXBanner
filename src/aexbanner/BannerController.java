@@ -7,6 +7,7 @@ package aexbanner;
 
 import java.beans.PropertyChangeEvent;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.logging.Level;
@@ -45,6 +46,12 @@ public class BannerController implements RemotePropertyListener {
         try {
             AEXbanner.setAmountOfElements(effectenBeurs.getKoersen().size());
         } catch (RemoteException ex) {
+        }
+
+        try {
+            UnicastRemoteObject.exportObject(this, portNumber);
+        } catch (RemoteException ex) {
+            Logger.getLogger(BannerController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 //        getFondsTimer = new Timer();
