@@ -30,7 +30,7 @@ public class AEXbanner extends Application {
 
     private int nextFondIndex = 0;
 
-    private int amountOfElements;
+    private int amountOfElements = 0;
 
     private Scene scene;
 

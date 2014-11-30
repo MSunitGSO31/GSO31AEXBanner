@@ -77,6 +77,7 @@ public class MockEffectenbeurs extends UnicastRemoteObject implements IEffectenb
     }
 
     public void informListener(Fonds fonds) {
+        System.out.println("INFORMING");
         basicPublisher.inform(this, null, null, fonds);
     }
 }
