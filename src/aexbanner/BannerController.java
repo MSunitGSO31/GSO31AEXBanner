@@ -21,10 +21,9 @@ import rmi.RMIClient;
  */
 public class BannerController implements RemotePropertyListener {
 
-    private IEffectenbeurs effectenBeurs;
-    private Timer getFondsTimer;
+    private final IEffectenbeurs effectenBeurs;
     public AEXbanner AEXbanner;
-    private RMIClient rmiClient;
+    private final RMIClient rmiClient;
     private String ipAddress;
     private int portNumber;
 
@@ -33,7 +32,7 @@ public class BannerController implements RemotePropertyListener {
         rmiClient = new RMIClient(ipAddress, portNumber);
         effectenBeurs = rmiClient.setUp();
         try {
-            //effectenBeurs = new MockEffectenbeurs();
+            UnicastRemoteObject.exportObject(this, portNumber + 1);
             effectenBeurs.addListener(this, null);
         } catch (RemoteException ex) {
             Logger.getLogger(BannerController.class.getName()).log(Level.SEVERE, null, ex);
@@ -47,15 +46,6 @@ public class BannerController implements RemotePropertyListener {
             AEXbanner.setAmountOfElements(effectenBeurs.getKoersen().size());
         } catch (RemoteException ex) {
         }
-
-        try {
-            UnicastRemoteObject.exportObject(this, portNumber);
-        } catch (RemoteException ex) {
-            Logger.getLogger(BannerController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-//        getFondsTimer = new Timer();
-//        getFondsTimer.scheduleAtFixedRate(new getFonds(), 0, 1000);
     }
 
     public void askForData() {
@@ -74,32 +64,6 @@ public class BannerController implements RemotePropertyListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
-
-        Fonds f = (Fonds) evt.getNewValue();
         AEXbanner.addFond((Fonds) evt.getNewValue());
-
-        System.out.println("Fond: " + f.toString());
     }
-
-//    class getFonds extends TimerTask {
-//
-//        public int arrayListIndex = 0;
-//
-//        @Override
-//        public void run() {
-//            try {
-//                ArrayList<Fonds> fondsList = effectenBeurs.getKoersen();
-//                Fonds fonds = fondsList.get(arrayListIndex);
-//
-//                //AEXbanner.setText(fonds.getName() + ": " + fonds.getKoers());
-//                AEXbanner.addFond(fonds);
-//
-//                arrayListIndex++;
-//                if (arrayListIndex >= fondsList.size()) {
-//                    arrayListIndex = 0;
-//                }
-//            } catch (RemoteException ex) {
-//            }
-//        }
-//    }
 }
